@@ -1,0 +1,18 @@
+{
+  "name": "signalk-serial-ports-example-plugin",
+  "version": "1.0.0",
+  "description": "Test Plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "signalk-node-server-plugin"
+  ],
+  "author": "scott@scottbender.net",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "lodash": "^3.10.1"
+  }
+}
