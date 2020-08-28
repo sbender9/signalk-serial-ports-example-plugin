@@ -13,7 +13,11 @@ module.exports = function(app) {
       type: "object",
       properties: {
         serialPort: {
-          title: "SerialPort",
+          title: "Serial Port",
+          type: "string",
+        },
+        manualSerialPort: {
+          title: "Manual Serial Port",
           type: "string",
         }
       }
@@ -21,7 +25,7 @@ module.exports = function(app) {
     return new Promise((resolve, reject) => {
       app.getSerialPorts()
         .then(ports => {
-          schema.properties.serialPort.enum = ports
+          schema.properties.serialPort.enum = [ 'Enter Manually', ...ports ]
           resolve(schema)
         })
         .catch(err => {
@@ -31,6 +35,8 @@ module.exports = function(app) {
   }
 
   plugin.start = function(options) {
+    const port = options.serialPort === 'Enter Manually' ? options.manualSerialPort : options.serialPort
+    app.debug('Serial Port is %s', port)
   }
 
   plugin.stop = function() {
