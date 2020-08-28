@@ -9,22 +9,23 @@ module.exports = function(app) {
   plugin.description = "Example seriports list use"
 
   plugin.schema = function() {
+    const schema = {
+      type: "object",
+      properties: {
+        serialPort: {
+          title: "SerialPort",
+          type: "string",
+        }
+      }
+    }
     return new Promise((resolve, reject) => {
       app.getSerialPorts()
         .then(ports => {
-          resolve({
-            type: "object",
-            properties: {
-              serialPort: {
-                title: "SerialPort",
-                type: "string",
-                "enum": ports
-              }
-            }
-          })
+          schema.properties.serialPort.enum = ports
+          resolve(schema)
         })
         .catch(err => {
-          reject(err)
+          resolve(schema)
         })
     })
   }
