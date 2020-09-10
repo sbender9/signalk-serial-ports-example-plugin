@@ -25,10 +25,12 @@ module.exports = function(app) {
     return new Promise((resolve, reject) => {
       app.getSerialPorts()
         .then(ports => {
-          schema.properties.serialPort.enum = [ 'Enter Manually', ...ports ]
+          schema.properties.serialPort.enum = [ 'Enter Manually', ...ports.map(port=> port.path) ]
+          schema.properties.serialPort.enumNames = [ 'Enter Manually', ...ports.map(port => `${port.path} (${port.manufacturer}/${port.vendorId}/${port.productId})`)]
           resolve(schema)
         })
         .catch(err => {
+          console.error(err)
           resolve(schema)
         })
     })
