@@ -25,8 +25,8 @@ module.exports = function(app) {
     return new Promise((resolve, reject) => {
       app.getSerialPorts()
         .then(ports => {
-          schema.properties.serialPort.enum = [ 'Enter Manually', ...ports.map(port=> port.path) ]
-          schema.properties.serialPort.enumNames = [ 'Enter Manually', ...ports.map(port => `${port.path} (${port.manufacturer}/${port.vendorId}/${port.productId})`)]
+          schema.properties.serialPort.enum = [ '[Enter Manually]', ...ports.serialports.map(port=> port.path) ]
+          schema.properties.serialPort.enumNames = [ '[Enter Manually]', ...ports.serialports.map(port => `${port.path} ${port.manufacturer || ""}`)]
           resolve(schema)
         })
         .catch(err => {
@@ -37,7 +37,7 @@ module.exports = function(app) {
   }
 
   plugin.start = function(options) {
-    const port = options.serialPort === 'Enter Manually' ? options.manualSerialPort : options.serialPort
+    const port = options.serialPort === '[Enter Manually]' ? options.manualSerialPort : options.serialPort
     app.debug('Serial Port is %s', port)
   }
 
